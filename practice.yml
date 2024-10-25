@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Movie Database
+  version: 1.0.0
+tags:
+  - name: movies
+paths:
+  /movies:
+    get:
+      tags: 
+        - movies
+      parameters:
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movies'
+        '404':
+          description: not found
+  /movies/{id}:
+    get:
+      tags: 
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movies'
+        '404':
+          description: not found
+components:
+  schemas:
+    movie:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        genre:
+          type: array
+          items: 
+            type: string
+        plot:
+          type: string
+        releaseDate:
+          type: string
+        actors:
+          type: array
+          items: 
+            type: object
+            properties:
+              name: 
+                type: string
+              height: 
+                type: integer
