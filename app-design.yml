@@ -1,0 +1,437 @@
+openapi: 3.0.3
+info:
+  title: Movie Database
+  version: 1.0.0
+tags:
+  - name: movies
+  - name: actors
+paths:
+  /movies:
+    get:
+      tags: 
+        - movies
+      parameters:
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/moviesCollection'
+        '404':
+          description: Movies not found
+    post:
+      tags:
+        - movies
+      description: Add a new movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/movieForPost'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '400':
+          description: Ivalid input
+  /movies/{id}:
+    get:
+      tags: 
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '404':
+          description: not found
+    put:
+      tags:
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Update a movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/movie'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '400':
+          description: Invalid id
+        '404':
+          description: Movie not found
+    patch:
+      tags:
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: 
+            type: integer
+      description: Partially updates a movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/movie'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '400':
+          description: Invalid id
+        '404':
+          description: Movie not found
+    delete:
+      tags:
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Deletes a movie
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Invalid id
+        '404':
+          description: Movie not found
+  /movies/{id}/actors:
+    get:
+      tags:
+        - movies
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actorsCollection'
+        '400':
+          description: Invalid id
+        '404':
+          description: Actors not found
+  /movies/{movieId}/actors/{actorId}:
+    put:
+      tags:
+        - movies
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: actorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Associate a movie with an actor
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actorsCollection'
+        '400':
+          description: Invalid movie or actor id
+        '404':
+          description: Movie or actor not found
+    delete:
+      tags:
+        - movies
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: actorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Dereference an actor from a movie
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Invalid movie or actor id
+        '404':
+          description: Movie or actor id not found
+  /actors:
+    get:
+      tags:
+        - actors
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            appliccation/json:
+              schema:
+                $ref: '#/components/schemas/actorsCollection'
+        '404':
+          description: Actors not found
+    post:
+      tags:
+        - actors
+      description: Add a new actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/actorForPost'
+      responses:
+        '201':
+          description: Actor created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actor'
+        '400':
+          description: Invalid input
+  /actors/{id}:
+    get:
+      tags:
+        - actors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actor'
+        '400':
+          description: Invalid id
+        '404':
+          description: Actor not found
+    put:
+      tags:
+        - actors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Updates an actor
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/actor'
+        '400':
+          description: Invalid id
+        '404':
+          description: Actor not found
+    patch:
+      tags:
+        - actors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Partially updates an actor
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actor'
+        '400':
+          description: Invalid id
+        '404':
+          description: Actor not found
+    delete:
+      tags:
+        - actors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      description: Delete an actor
+      responses:
+        '204':
+          description: Successful operation
+        '400': 
+          description: Invalid id
+        '404':
+          description: Actor not found
+  /actors/{id}/movies:
+    get:
+      tags:
+        - actors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/moviesCollection'
+        '404': 
+          description: Movies not found
+components:
+  schemas:
+    moviesCollection:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          releaseDate:
+            type: string
+    movieForPost:
+      type: object
+      properties:
+        title:
+          type: string
+        plot:
+          type: string
+        releaseDate:
+          type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+    movie:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        genre:
+          type: array
+          items: 
+            type: string
+        plot:
+          type: string
+        releaseDate:
+          type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+            actors:
+              type: string
+    actorsCollection:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          height:
+            type: integer
+    actorForPost:
+      type: object
+      properties:
+        name:
+          type: string
+        height:
+          type: integer
+        birthDate:
+          type: string
+        birthLocation:
+          type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+    actor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        height:
+          type: integer
+        birthDate:
+          type: string
+        birthLocation:
+          type: string
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+            movies:
+              type: string
