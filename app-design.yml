@@ -67,33 +67,6 @@ paths:
                 $ref: '#/components/schemas/movie'
         '404':
           description: not found
-    put:
-      tags:
-        - movies
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      description: Update a movie
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/movie'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/movie'
-        '400':
-          description: Invalid id
-        '404':
-          description: Movie not found
     patch:
       tags:
         - movies
@@ -265,27 +238,6 @@ paths:
           description: Invalid id
         '404':
           description: Actor not found
-    put:
-      tags:
-        - actors
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      description: Updates an actor
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema: 
-                $ref: '#/components/schemas/actor'
-        '400':
-          description: Invalid id
-        '404':
-          description: Actor not found
     patch:
       tags:
         - actors
@@ -296,6 +248,11 @@ paths:
           schema:
             type: integer
       description: Partially updates an actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/actor'
       responses:
         '200':
           description: Successful operation
@@ -363,11 +320,6 @@ components:
           type: string
         releaseDate:
           type: string
-        _links:
-          type: object
-          properties:
-            self:
-              type: string
     movie:
       type: object
       properties:
@@ -410,11 +362,6 @@ components:
           type: string
         birthLocation:
           type: string
-        _links:
-          type: object
-          properties:
-            self:
-              type: string
     actor:
       type: object
       properties:
