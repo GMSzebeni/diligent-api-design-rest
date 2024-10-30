@@ -335,13 +335,6 @@ components:
           type: string
         releaseDate:
           type: string
-        _links:
-          type: object
-          properties:
-            self:
-              type: string
-            actors:
-              type: string
     actorsCollection:
       type: array
       items:
@@ -375,10 +368,3 @@ components:
           type: string
         birthLocation:
           type: string
-        _links:
-          type: object
-          properties:
-            self:
-              type: string
-            movies:
-              type: string
